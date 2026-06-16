@@ -19,8 +19,8 @@ jobs:
       - name: Create GIF
         run: |
           convert \
-          assets/image1.png \
-          assets/image2.png \
+          assets/image1.jpg \
+          assets/image2.jpg \
           -delay 150 \
           -loop 0 \
           assets/slideshow.gif
