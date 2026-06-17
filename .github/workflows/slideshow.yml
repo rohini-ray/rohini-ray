@@ -2,6 +2,7 @@ name: Generate Profile Animation
 
 on:
   workflow_dispatch:
+
   schedule:
     - cron: "0 0 * * *"
 
@@ -14,25 +15,33 @@ jobs:
 
     steps:
 
-      - name: Checkout
+      # Get repository files
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - name: Create animation file
+      # Create animation folder
+      - name: Create assets folder
         run: |
           mkdir -p assets
-          echo "Japanese animation updated $(date)" > assets/status.txt
 
-     - name: Commit and Push
-       run: |
-         git config --global user.name "github-actions[bot]"
-         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      # Generate/update animation file
+      # Replace this section with your GIF generation script
+      - name: Generate animation
+        run: |
+          echo "Japanese animation updated at $(date)" > assets/status.txt
 
-         git add .
+      # Commit changes and push
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-         git commit -m "Update animation" || echo "No changes"
+          git add assets/
 
-         git pull --rebase origin main
+          git commit -m "Update profile animation" || echo "No changes to commit"
 
-         git push origin main
+          git pull --rebase origin main
+
+          git push origin main
