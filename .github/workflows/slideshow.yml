@@ -1,8 +1,7 @@
-name: Generate Profile Animation
+name: Create Image Slideshow
 
 on:
   workflow_dispatch:
-
   schedule:
     - cron: "0 0 * * *"
 
@@ -10,37 +9,38 @@ permissions:
   contents: write
 
 jobs:
-  generate:
+  slideshow:
     runs-on: ubuntu-latest
 
     steps:
 
-      # Get repository files
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      # Create animation folder
-      - name: Create assets folder
+      - name: Install ImageMagick
         run: |
-          mkdir -p assets
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
 
-      # Generate/update animation file
-      # Replace this section with your GIF generation script
-      - name: Generate animation
+      - name: Create GIF slideshow
         run: |
-          echo "Japanese animation updated at $(date)" > assets/status.txt
+          convert \
+          -delay 150 \
+          -loop 0 \
+          assets/image1.jpg \
+          assets/image2.jpg \
+          assets/japan-slideshow.gif
 
-      # Commit changes and push
-      - name: Commit and Push
+      - name: Commit GIF
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add assets/
+          git add assets/japan-slideshow.gif
 
-          git commit -m "Update profile animation" || echo "No changes to commit"
+          git commit -m "Generate Japan slideshow GIF" || echo "No changes"
 
           git pull --rebase origin main
 
