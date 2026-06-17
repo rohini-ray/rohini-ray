@@ -1,15 +1,16 @@
-name: Create Image Slideshow
+name: Add Japan Video Animation
 
 on:
   workflow_dispatch:
+
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "30 18 * * *"
 
 permissions:
   contents: write
 
 jobs:
-  slideshow:
+  convert-video:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,29 +20,29 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install ImageMagick
+      - name: Install FFmpeg
         run: |
           sudo apt-get update
-          sudo apt-get install -y imagemagick
+          sudo apt-get install -y ffmpeg
 
-      - name: Create GIF slideshow
+      - name: Convert Japan MP4 to GIF
         run: |
-          convert \
-          -delay 150 \
-          -loop 0 \
-          assets/image1.jpg \
-          assets/image2.jpg \
-          assets/japan-slideshow.gif
+          mkdir -p assets
 
-      - name: Commit GIF
+          ffmpeg -i assets/japan.mp4 \
+          -vf "fps=15,scale=800:-1" \
+          -loop 0 \
+          assets/japan-animation.gif
+
+      - name: Commit and Push GIF
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add assets/japan-slideshow.gif
+          git add assets/japan-animation.gif
 
-          git commit -m "Generate Japan slideshow GIF" || echo "No changes"
+          git commit -m "Update Japan animation GIF" || echo "No changes"
 
           git pull --rebase origin main
 
-          git push origin main
+          git push origin HEAD:${{ github.ref_name }}
