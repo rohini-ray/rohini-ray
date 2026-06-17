@@ -1,3 +1,9 @@
+<h1 align="center">
+  Welcome 🌸
+</h1>
+
+<img src="./assets/japan-slideshow.gif" width="800">
+
 # 💫 About Me:
 <br>Hi, I'm Ro 👋<br><br>I'm an aspiring AI Developer passionate about building intelligent applications that solve real-world problems. I enjoy exploring Artificial Intelligence, Machine Learning, Large Language Models (LLMs), and Full-Stack Development.<br><br>🚀 Currently building AI-powered projects like emotional support chatbots and intelligent systems.<br><br>💡 Interested in:<br>- Artificial Intelligence & Machine Learning<br>- Generative AI & LLM Applications<br>- Chatbot Development<br>- Computer Vision<br>- Web & Mobile Applications<br><br>⚡ Always learning, experimenting, and turning ideas into impactful solutions.
 
