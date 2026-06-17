@@ -2,8 +2,10 @@ name: Create Image Slideshow
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * *"
+
+  push:
+    paths:
+      - "assets/*.png"
 
 permissions:
   contents: write
@@ -24,8 +26,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y imagemagick
 
-      - name: Create GIF slideshow
+      - name: Generate slideshow GIF
         run: |
+          mkdir -p assets
+
           convert \
           -delay 150 \
           -loop 0 \
@@ -33,14 +37,14 @@ jobs:
           assets/image2.jpg \
           assets/japan-slideshow.gif
 
-      - name: Commit GIF
+      - name: Commit generated GIF
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add assets/japan-slideshow.gif
 
-          git commit -m "Generate Japan slideshow GIF" || echo "No changes"
+          git commit -m "Update Japan slideshow GIF" || echo "No changes"
 
           git pull --rebase origin main
 
